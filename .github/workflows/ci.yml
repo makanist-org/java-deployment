@@ -29,6 +29,12 @@ jobs:
         
     - name: Compile code
       run: mvn compile
+      
+    - name: Upload compiled classes
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-classes
+        path: target/classes
 
   test:
     name: "🧪 Run Tests"
@@ -51,16 +57,14 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
+    - name: Download compiled classes
+      uses: actions/download-artifact@v4
+      with:
+        name: compiled-classes
+        path: target/classes
+        
     - name: Run tests
       run: mvn test
-      
-    - name: Publish Test Results
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: Maven Tests
-        path: target/surefire-reports/*.xml
-        reporter: java-junit
 
   package:
     name: "📦 Build Package"
