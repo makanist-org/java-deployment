@@ -24,12 +24,18 @@ A simple Spring Boot REST API project with CRUD operations for user management.
 
 ```
 JavaProject/
+├── .github/workflows/
+│   └── ci.yml               # GitHub Actions CI/CD pipeline
 ├── src/main/java/com/example/
 │   ├── Application.java      # Main Spring Boot application
 │   ├── User.java            # User model class
 │   └── UserController.java  # REST controller
-├── pom.xml                  # Maven configuration
-└── README.md               # This file
+├── src/test/java/com/example/
+│   └── UserControllerTest.java # JUnit test cases
+├── target/                  # Build output (auto-generated)
+├── .gitignore              # Git ignore rules
+├── pom.xml                 # Maven configuration
+└── README.md              # This file
 ```
 
 ## Running the Application
@@ -135,6 +141,23 @@ mvn test
 mvn test -Dtest=UserControllerTest
 ```
 
+### Test Coverage
+
+The project includes comprehensive JUnit tests:
+
+**UserControllerTest.java:**
+- `testCreateUser()` - Tests POST /api/users endpoint
+- `testGetAllUsers()` - Tests GET /api/users endpoint
+- `testGetUserById()` - Tests GET /api/users/{id} endpoint
+- `testDeleteUser()` - Tests DELETE /api/users/{id} endpoint
+
+**Test Features:**
+- Uses `@SpringBootTest` for full application context
+- MockMvc for HTTP request/response testing
+- Ordered test execution with `@TestMethodOrder`
+- Detailed HTTP logging with `.andDo(print())`
+- JSON path assertions for response validation
+
 ## Build Output
 
 After running `mvn package`, the `target/` folder contains:
@@ -143,12 +166,23 @@ After running `mvn package`, the `target/` folder contains:
 
 ## GitHub Actions CI/CD
 
-The project includes automated CI/CD pipeline that:
-- Runs on push to `main` or `develop` branches
-- Runs on pull requests to `main`
-- Executes all tests with `mvn test`
-- Builds JAR with `mvn package`
-- Uploads JAR as artifact
+The project includes a 3-stage automated CI/CD pipeline:
+
+**🔧 Setup & Compile** → **🧪 Run Tests** → **📦 Build Package**
+
+- **Stage 1:** Setup JDK, cache dependencies, compile code
+- **Stage 2:** Run JUnit tests, publish test results
+- **Stage 3:** Build JAR package, upload as artifact
+
+**Triggers:**
+- Push to `main` or `develop` branches
+- Pull requests to `main`
+
+**Features:**
+- Visual flow diagram in GitHub Actions UI
+- Artifact sharing between stages
+- Test result reporting
+- Maven dependency caching for faster builds
 
 **Workflow file:** `.github/workflows/ci.yml`
 
