@@ -29,7 +29,8 @@ JavaProject/
 ├── src/main/java/com/example/
 │   ├── Application.java      # Main Spring Boot application
 │   ├── User.java            # User model class
-│   └── UserController.java  # REST controller
+│   ├── UserController.java  # REST controller
+│   └── ApiDataController.java # API data controller
 ├── src/test/java/com/example/
 │   └── UserControllerTest.java # JUnit test cases
 ├── target/                  # Build output (auto-generated)
@@ -54,6 +55,7 @@ Application starts on `http://localhost:8080`
 | GET | `/api/users/{id}` | Get user by ID |
 | POST | `/api/users` | Create new user |
 | DELETE | `/api/users/{id}` | Delete user |
+| GET | `/api/get_api_data` | Get API data collection |
 
 ## Test Cases
 
@@ -102,6 +104,12 @@ curl -X DELETE http://localhost:8080/api/users/1
 curl http://localhost:8080/api/users
 ```
 **Expected:** Array with only Jane Smith
+
+### 8. Get API Data
+```bash
+curl http://localhost:8080/api/get_api_data
+```
+**Expected:** JSON array of API data objects
 
 ## Building the Project
 
